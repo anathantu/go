@@ -8,7 +8,7 @@ go mod init `package name`
 
 package name表示包名，默认为文件夹的名字
 
-使用了go mod之后，目录都是以go mod中的modules为基准，因此，geecache中day3下的cache.go中引用lru的话，需要在第四行加入example
+使用了go mod之后，目录都是以go mod中的modules为基准，不再支持 import <相对路径>,因此，geecache中day3下的cache.go中引用lru的话，需要在第四行加入example
 
 ## 缓存系统GeeCache
 
