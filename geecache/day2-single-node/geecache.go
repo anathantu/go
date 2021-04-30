@@ -30,7 +30,7 @@ func (f GetterFunc) Get(key string) ([]byte, error) {
 }
 
 var (
-	mu     sync.Mutex
+	mu     sync.RWMutex
 	groups = make(map[string]*Group)
 )
 
@@ -46,6 +46,13 @@ func NewGroup(name string, cacheBytes int64, getter Getter) *Group {
 		mainCache: cache{cacheBytes: cacheBytes},
 	}
 	groups[name] = g
+	return g
+}
+
+func GetGroup(key string) *Group {
+	mu.RLock()
+	g := groups[key]
+	mu.RUnlock()
 	return g
 }
 
