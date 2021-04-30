@@ -6,6 +6,12 @@ import (
 	"sync"
 )
 
+/**
+*一个 Group 可以认为是一个缓存的命名空间，每个 Group 拥有一个唯一的名称 name。
+*比如可以创建三个 Group，缓存学生的成绩命名为 scores，缓存学生信息的命名为 info，
+*缓存学生课程的命名为 courses。
+ */
+
 type Group struct {
 	name      string
 	getter    Getter
@@ -53,6 +59,7 @@ func (g *Group) Get(key string) (ByteView, error) {
 		return v, nil
 	}
 
+	//没有命中缓存时加载缓存
 	return g.load(key)
 }
 
@@ -61,10 +68,10 @@ func (g *Group) load(key string) (value ByteView, err error) {
 }
 
 func (g *Group) getLocally(key string) (ByteView, error) {
+	//调用Group中的回调函数
 	bytes, err := g.getter.Get(key)
 	if err != nil {
 		return ByteView{}, err
-
 	}
 	value := ByteView{b: cloneBytes(bytes)}
 	g.populateCache(key, value)
