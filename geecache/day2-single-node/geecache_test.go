@@ -14,10 +14,13 @@ var db = map[string]string{
 }
 
 func TestGetter(t *testing.T) {
+
+	//这里其实是一个类型转换的过程，先转换为GetterFunc类型
 	var f Getter = GetterFunc(func(key string) ([]byte, error) {
 		return []byte(key), nil
 	})
 
+	//这里也是类型转换
 	expect := []byte("key")
 	if v, _ := f.Get("key"); !reflect.DeepEqual(v, expect) {
 		t.Fatal("callback failed")
