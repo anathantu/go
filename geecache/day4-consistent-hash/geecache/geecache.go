@@ -22,7 +22,7 @@ type Getter interface {
 	Get(key string) ([]byte, error)
 }
 
-//定义了一个函数类型
+// GetterFunc 定义了一个函数类型
 type GetterFunc func(key string) ([]byte, error)
 
 func (f GetterFunc) Get(key string) ([]byte, error) {
