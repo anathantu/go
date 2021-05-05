@@ -75,10 +75,10 @@ func (p *HTTPPool) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func (p *HTTPPool) Set(peers ...string) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
-	p.peers=consistenthash.New(defaultReplicas,nil)
+	p.peers = consistenthash.New(defaultReplicas, nil)
 	p.peers.Add(peers...)
-	p.httpGetters = make(map[string]*httpGetter,len(peers))
-	for _,peer:=range peers{
+	p.httpGetters = make(map[string]*httpGetter, len(peers))
+	for _, peer := range peers {
 		p.httpGetters[peer] = &httpGetter{baseURL: peer + p.basePath}
 	}
 }
@@ -120,4 +120,4 @@ func (h *httpGetter) Get(group string, key string) ([]byte, error) {
 	return bytes, nil
 }
 
-var _PeerGetter = (*httpGetter)(nil)
+var _ PeerGetter = (*httpGetter)(nil)
