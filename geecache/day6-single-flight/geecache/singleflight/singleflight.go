@@ -9,7 +9,7 @@ type call struct {
 	err error
 }
 
-//是singleflight的主数据结构，管理不同key的请求
+//Group是singleflight的主数据结构，管理不同key的请求
 type Group struct {
 	mu sync.Mutex
 	m  map[string]*call
