@@ -1,6 +1,8 @@
 package lru
 
-import "container/list"
+import (
+	"container/list"
+)
 
 type Cache struct {
 	maxBytes  int64
