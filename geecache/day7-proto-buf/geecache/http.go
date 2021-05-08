@@ -111,7 +111,7 @@ type httpGetter struct {
 
 func (h *httpGetter) Get(in *geecachepb.Request, out *geecachepb.Response) error {
 	u := fmt.Sprintf("%v%v%v", h.baseURL, url.QueryEscape(in.Group), url.QueryEscape(in.Key))
-	res, err := http.Get(u)
+	res, err := http.Get(u) //这里就向其他节点发起了请求，res就是请求得到的缓存值
 	if err != nil {
 		return err
 	}

@@ -36,4 +36,8 @@ func rwSlice(){
 
 	fmt.Println(s)
 	fmt.Println(data)
+	/**
+	[102 203]
+	[0 1 102 203 4 5]
+	 */
 }

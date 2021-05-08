@@ -120,4 +120,4 @@ func (h *httpGetter) Get(group string, key string) ([]byte, error) {
 	return bytes, nil
 }
 
-var _PeerGetter = (*httpGetter)(nil)
+//var _PeerGetter = (*httpGetter)(nil)

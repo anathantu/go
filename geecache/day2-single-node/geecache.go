@@ -80,6 +80,7 @@ func (g *Group) getLocally(key string) (ByteView, error) {
 	if err != nil {
 		return ByteView{}, err
 	}
+	//保存时赋值一份
 	value := ByteView{b: cloneBytes(bytes)}
 	g.populateCache(key, value)
 	return value, nil
