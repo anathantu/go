@@ -63,8 +63,7 @@ kv := ele.Value.(*entry)
 
 #### ByteView
 
-> 　Go语言没有像其它语言一样有public、protected、private等访问控制修饰符，它是通过字母大小写来控制可见性的，如果定义的常量、变量、类型、接口、结构、函数等的名称是大写字母开头表示能被其它包访问或调用（相当于public），非大写开头就只能在包内使用（相当于private，变量或常量也可以下划线开头）
->
+> 　　Go语言没有像其它语言一样有public、protected、private等访问控制修饰符，它是通过字母大小写来控制可见性的，如果定义的常量、变量、类型、接口、结构、函数等的名称是大写字母开头表示能被其它包访问或调用（相当于public），非大写开头就只能在包内使用（相当于private，变量或常量也可以下划线开头）
 
 `ByteView`中的变量是`b`，只能在包内访问，所以在没有定义写入方法的情况下，它是只读的。
 
@@ -237,5 +236,76 @@ protoc-gen-go: unable to determine Go import path for "student.proto"
 
 * [GeekTuTu七天从零实现教程](https://geektutu.com/post/geecache.html)
 
-## 小计
+## Geerpc
+
+### day1服务端与消息编码
+
+#### init()函数的作用：
+
+> codec.go中使用到了init()函数
+
+* 变量初始化
+* 检查和修复程序状态
+* 运行前注册，例如decoder、parser的注册
+* 运行前只需计算一次的模块，像sync.once的作用
+
+```go
+如果需要使用一个导入的包，首先要对这个包进行初始化，这一步在main函数执行之前，由runtime来完成，分以下步骤：
+	1. 初始化导入的包；
+	2. 初始化包作用域中的变量；
+	3. 执行包中的init函数。
+如果某个包被导入了多次，也只会执行一次包的初始化。
+```
+
+最常见的用法是初始化不能使用初始化表达式的变量，也就是不能在变量声明时的时候初始化的变量，看以下例子：
+
+```go
+var square [10]int
+
+func init() {
+    for i := 0; i < 10; i++ {
+        square[i] = i * i
+    }
+}
+```
+
+#### Gob编码
+
+`Gob` 是`Go`语言自己以二进制形式序列化和反序列化程序数据的格式，可以在 `encoding` 包中找到。这种格式的数据简称为 `Gob`（即 `Go binary` 的缩写）。类似于 [Python](http://c.biancheng.net/python/) 的“`pickle`”和 [Java](http://c.biancheng.net/java/) 的“`Serialization`”。
+
+`Gob` 和 `JSON` 的 `pack` 之类的方法一样，由发送端使用 `Encoder` 对数据结构进行编码。在接收端收到消息之后，接收端使用 `Decoder` 将序列化的数据变化成本地变量。
+
+>  想不起来了的话，读源码
+
+```go
+func newGobFile(){
+   info:=map[string]string{
+      "name":"this is github",
+      "website":"wwww.github.com",
+   }
+   name:="demo.gob"
+   file,_ := os.OpenFile(name,os.O_RDWR|os.O_CREATE,0777)
+   defer file.Close()
+   enc:=gob.NewEncoder(file)
+   if err:=enc.Encode(info);err!=nil{
+      fmt.Println(err)
+   }
+}
+
+func readGobFile(){
+   var M map[string]string
+   file,_:=os.Open("demo.gob")
+   d:=gob.NewDecoder(file)
+   d.Decode(&M)
+   fmt.Println(M)
+}
+
+func main(){
+   newGobFile()
+   readGobFile()	//打印结果：map[name:this is github website:wwww.github.com]
+}
+```
+
+## 其他
+
 * `VS code中markdown文档，用ctrl+k v可以实现双侧显示`
