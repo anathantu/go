@@ -3,12 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
-	"github/anathantu/go/"
+	"github/anathantu/go/context/context_with_cancel"
 	"time"
 )
 
 func main() {
-
+	//context_with_value.ContextWithValue()
+	//context_with_cancel.ContextWithCancel()
+	context_with_cancel.WithCancel()
 }
 
 func contextFunc() {

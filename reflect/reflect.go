@@ -8,15 +8,15 @@ import (
 type Enum int
 
 const (
-	Zero Enum =0
+	Zero Enum = 0
 )
 
-func test01(){
+func test01() {
 	type cat struct{}
 
-	ins:=&cat{}
+	ins := &cat{}
 
-	typeOfCat:=reflect.TypeOf(ins)
+	typeOfCat := reflect.TypeOf(ins)
 	// 显示反射类型对象的名称和种类
 	fmt.Printf("name:'%v' kind:'%v'\n", typeOfCat.Name(), typeOfCat.Kind())
 	// 取类型的元素
@@ -29,7 +29,7 @@ func test01(){
 	fmt.Println(typeOfA.Name(), typeOfA.Kind())
 }
 
-func test2(){
+func test2() {
 	// 声明一个空结构体
 	type cat struct {
 		Name string
@@ -54,6 +54,6 @@ func test2(){
 	}
 }
 
-func main(){
+func main() {
 	test2()
 }

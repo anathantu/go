@@ -7,7 +7,7 @@ import (
 
 type key string
 
-func contextWithValue() {
+func ContextWithValue() {
 	ctx := context.WithValue(context.Background(), key("asong"), "Golang梦工厂")
 	Get(ctx, key("asong"))
 	Get(ctx, key("song"))
